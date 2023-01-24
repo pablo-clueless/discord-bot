@@ -3,6 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("./register");
+require("node:events");
 const discord_js_1 = require("discord.js");
 const dotenv_1 = __importDefault(require("dotenv"));
 const ai_1 = require("./ai");
@@ -19,17 +21,17 @@ const client = new discord_js_1.Client({
     partials: [discord_js_1.Partials.Channel]
 });
 // const offenders = new 
-client.once('ready', () => {
+client.once(discord_js_1.Events.ClientReady, () => {
     console.log('Jarvis is online!');
 });
-client.on('interactionCreate', async (interaction) => {
+client.on(discord_js_1.Events.InteractionCreate, async (interaction) => {
     if (!interaction.isChatInputCommand())
         return;
     if (interaction.commandName === 'refresh') {
         await interaction.reply('Refresh done!');
     }
 });
-client.on('guildMemberAdd', async (member) => {
+client.on(discord_js_1.Events.GuildMemberAdd, async (member) => {
     const channelId = process.env.INTRODUCTION_CHANNEL_ID;
     const username = member.id;
     const welcomeMessage = `Hey @${username}, welcome to the server. Please read the #rules before anything else`;
@@ -38,7 +40,7 @@ client.on('guildMemberAdd', async (member) => {
         // !ADD WELCOME MESSAGE
     });
 });
-client.on('messageCreate', async (message) => {
+client.on(discord_js_1.Events.MessageCreate, async (message) => {
     if (message.author.bot)
         return;
     if (message.content.substring(0, 1) === '!') {
@@ -47,7 +49,7 @@ client.on('messageCreate', async (message) => {
         message.channel.send(answer);
     }
 });
-client.on('messageCreate', async (message) => {
+client.on(discord_js_1.Events.MessageCreate, async (message) => {
     if (message.author.bot)
         return;
     if (message.content.toLowerCase() === 'hey jarvis') {

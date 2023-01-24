@@ -1,6 +1,6 @@
-// import './register'
-import { channel } from 'diagnostics_channel'
-import { Client, GatewayIntentBits, Partials } from 'discord.js'
+import './register'
+import 'node:events'
+import { Client, Events, GatewayIntentBits, Partials } from 'discord.js'
 import dotenv from 'dotenv'
 
 import { ask } from './ai'
@@ -21,18 +21,18 @@ const client = new Client({
 })
 // const offenders = new 
 
-client.once('ready', () => {
+client.once(Events.ClientReady, () => {
     console.log('Jarvis is online!')
 })
 
-client.on('interactionCreate', async(interaction) => {
+client.on(Events.InteractionCreate, async(interaction) => {
     if(!interaction.isChatInputCommand()) return
     if(interaction.commandName === 'refresh') {
         await interaction.reply('Refresh done!')
     }
 })
 
-client.on('guildMemberAdd', async(member) => {
+client.on(Events.GuildMemberAdd, async(member) => {
     const channelId = process.env.INTRODUCTION_CHANNEL_ID as string
     const username = member.id
     const welcomeMessage = `Hey @${username}, welcome to the server. Please read the #rules before anything else`
@@ -42,7 +42,7 @@ client.on('guildMemberAdd', async(member) => {
     })
 })
 
-client.on('messageCreate', async(message) => {
+client.on(Events.MessageCreate, async(message) => {
     if(message.author.bot) return
     if(message.content.substring(0, 1) === '!'){
         const prompt = message.content.substring(1)
@@ -51,7 +51,7 @@ client.on('messageCreate', async(message) => {
     }
 })
 
-client.on('messageCreate', async(message) => {
+client.on(Events.MessageCreate, async(message) => {
     if(message.author.bot) return
     if(message.content.toLowerCase() === 'hey jarvis'){
         const username = message.author.username
