@@ -2,16 +2,16 @@
   "name": "discord-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "src/bot.js",
+  "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "npx only-allow pnpm",
     "complie": "npx tsc",
     "build": "rimraf dist && npx tsc",
     "prestart": "npm run build",
-    "start": "node dist/bot.js",
+    "start": "node dist/src/bot.js",
     "predev": "npm run build",
-    "dev": "concurrently  \"npx tsc --watch\" \"nodemon -q dist/bot.js\""
+    "dev": "concurrently  \"npx tsc --watch\" \"nodemon -q dist/src/bot.js\""
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
   "dependencies": {
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
+    "openai": "^3.1.0",
     "rimraf": "^4.1.1"
   },
   "devDependencies": {
