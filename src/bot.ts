@@ -1,6 +1,6 @@
 // import './register'
 import { channel } from 'diagnostics_channel'
-import { Client, Events, GatewayIntentBits, Partials } from 'discord.js'
+import { Client, GatewayIntentBits, Partials } from 'discord.js'
 import dotenv from 'dotenv'
 
 import { ask } from './ai'
@@ -21,18 +21,18 @@ const client = new Client({
 })
 // const offenders = new 
 
-client.once(Events.ClientReady, () => {
+client.once('ready', () => {
     console.log('Jarvis is online!')
 })
 
-client.on(Events.InteractionCreate, async(interaction) => {
+client.on('interactionCreate', async(interaction) => {
     if(!interaction.isChatInputCommand()) return
     if(interaction.commandName === 'refresh') {
         await interaction.reply('Refresh done!')
     }
 })
 
-client.on(Events.GuildMemberAdd, async(member) => {
+client.on('guildMemberAdd', async(member) => {
     const channelId = process.env.INTRODUCTION_CHANNEL_ID as string
     const username = member.id
     const welcomeMessage = `Hey @${username}, welcome to the server. Please read the #rules before anything else`
@@ -42,7 +42,7 @@ client.on(Events.GuildMemberAdd, async(member) => {
     })
 })
 
-client.on(Events.MessageCreate, async(message) => {
+client.on('messageCreate', async(message) => {
     if(message.author.bot) return
     if(message.content.substring(0, 1) === '!'){
         const prompt = message.content.substring(1)
@@ -51,10 +51,10 @@ client.on(Events.MessageCreate, async(message) => {
     }
 })
 
-client.on(Events.MessageCreate, async(message) => {
+client.on('messageCreate', async(message) => {
     if(message.author.bot) return
     if(message.content.toLowerCase() === 'hey jarvis'){
-        const username = message.author.id
+        const username = message.author.username
         message.channel.send(`How can I help you @${username}`)
     }
 })

@@ -19,17 +19,17 @@ const client = new discord_js_1.Client({
     partials: [discord_js_1.Partials.Channel]
 });
 // const offenders = new 
-client.once(discord_js_1.Events.ClientReady, () => {
+client.once('ready', () => {
     console.log('Jarvis is online!');
 });
-client.on(discord_js_1.Events.InteractionCreate, async (interaction) => {
+client.on('interactionCreate', async (interaction) => {
     if (!interaction.isChatInputCommand())
         return;
     if (interaction.commandName === 'refresh') {
         await interaction.reply('Refresh done!');
     }
 });
-client.on(discord_js_1.Events.GuildMemberAdd, async (member) => {
+client.on('guildMemberAdd', async (member) => {
     const channelId = process.env.INTRODUCTION_CHANNEL_ID;
     const username = member.id;
     const welcomeMessage = `Hey @${username}, welcome to the server. Please read the #rules before anything else`;
@@ -38,7 +38,7 @@ client.on(discord_js_1.Events.GuildMemberAdd, async (member) => {
         // !ADD WELCOME MESSAGE
     });
 });
-client.on(discord_js_1.Events.MessageCreate, async (message) => {
+client.on('messageCreate', async (message) => {
     if (message.author.bot)
         return;
     if (message.content.substring(0, 1) === '!') {
@@ -47,11 +47,11 @@ client.on(discord_js_1.Events.MessageCreate, async (message) => {
         message.channel.send(answer);
     }
 });
-client.on(discord_js_1.Events.MessageCreate, async (message) => {
+client.on('messageCreate', async (message) => {
     if (message.author.bot)
         return;
     if (message.content.toLowerCase() === 'hey jarvis') {
-        const username = message.author.id;
+        const username = message.author.username;
         message.channel.send(`How can I help you @${username}`);
     }
 });
