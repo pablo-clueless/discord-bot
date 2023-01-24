@@ -39,4 +39,3 @@ client.on(discord_js_1.Events.MessageCreate, async (message) => {
     }
 });
 client.login(TOKEN);
-//# sourceMappingURL=bot.js.map
