@@ -5,8 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "npx only-allow pnpm",
-    "complie": "npx tsc",
+    "compile": "npx tsc",
     "build": "rimraf dist && npx tsc",
     "prestart": "npm run build",
     "start": "node dist/src/bot.js",

@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import './register'
 const discord_js_1 = require("discord.js");
 const dotenv_1 = __importDefault(require("dotenv"));
 const ai_1 = require("./ai");
@@ -19,6 +18,7 @@ const client = new discord_js_1.Client({
     ],
     partials: [discord_js_1.Partials.Channel]
 });
+// const offenders = new 
 client.once(discord_js_1.Events.ClientReady, () => {
     console.log('Jarvis is online!');
 });
@@ -29,6 +29,15 @@ client.on(discord_js_1.Events.InteractionCreate, async (interaction) => {
         await interaction.reply('Refresh done!');
     }
 });
+client.on(discord_js_1.Events.GuildMemberAdd, async (member) => {
+    const channelId = process.env.INTRODUCTION_CHANNEL_ID;
+    const username = member.id;
+    const welcomeMessage = `Hey @${username}, welcome to the server. Please read the #rules before anything else`;
+    const channel = await member.guild.channels.fetch(channelId)
+        .then((channel) => {
+        // !ADD WELCOME MESSAGE
+    });
+});
 client.on(discord_js_1.Events.MessageCreate, async (message) => {
     if (message.author.bot)
         return;
@@ -36,6 +45,14 @@ client.on(discord_js_1.Events.MessageCreate, async (message) => {
         const prompt = message.content.substring(1);
         const answer = await (0, ai_1.ask)(prompt);
         message.channel.send(answer);
+    }
+});
+client.on(discord_js_1.Events.MessageCreate, async (message) => {
+    if (message.author.bot)
+        return;
+    if (message.content.toLowerCase() === 'hey jarvis') {
+        const username = message.author.id;
+        message.channel.send(`How can I help you @${username}`);
     }
 });
 client.login(TOKEN);
