@@ -1,9 +1,10 @@
 import './register'
 import 'node:events'
-import { Client, Events, GatewayIntentBits, Partials } from 'discord.js'
 import dotenv from 'dotenv'
+import { Client, Collection, Events, GatewayIntentBits, Partials } from 'discord.js'
 
 import { ask } from './ai'
+import { getCoursesByDay } from './commons/utils/timetable'
 
 dotenv.config()
 
@@ -19,10 +20,19 @@ const client = new Client({
     ],
     partials: [Partials.Channel]
 })
-// const offenders = new 
+
+// const offenders = new Collection()
 
 client.once(Events.ClientReady, () => {
     console.log('Jarvis is online!')
+})
+
+client.once(Events.ClientReady, async(client) => {
+    const hours = new Date().getHours()
+    const timetable = getCoursesByDay()
+    if(hours === 12) {
+        const channel = await client.channels.fetch('')
+    }
 })
 
 client.on(Events.InteractionCreate, async(interaction) => {
