@@ -46,7 +46,18 @@ client.on(discord_js_1.Events.MessageCreate, async (message) => {
     if (message.content.substring(0, 1) === '!') {
         const prompt = message.content.substring(1);
         const answer = await (0, ai_1.ask)(prompt);
-        message.channel.send(answer);
+        if (answer.length > 2000) {
+            let response = [];
+            // const chunker = /s[S]{1,2000}/g
+            const chunk = answer.split('\n');
+            response.push(chunk);
+            for (let i = 0; i < response.length; i++) {
+                message.channel.send(response[i]);
+            }
+        }
+        else {
+            message.channel.send(answer);
+        }
     }
 });
 client.on(discord_js_1.Events.MessageCreate, async (message) => {
@@ -57,4 +68,16 @@ client.on(discord_js_1.Events.MessageCreate, async (message) => {
         message.channel.send(`How can I help you @${username}`);
     }
 });
+client.on(discord_js_1.Events.MessageCreate, async (message) => {
+    if (message.author.bot)
+        return;
+    if (message.content.substring(0, 1) === '!') {
+        const question = message.content.substring(1);
+        if (question.toLowerCase() === 'what is my name') {
+            const username = message.author.username;
+            message.channel.send(`Your name is @${username}`);
+        }
+    }
+});
 client.login(TOKEN);
+//# sourceMappingURL=bot.js.map
