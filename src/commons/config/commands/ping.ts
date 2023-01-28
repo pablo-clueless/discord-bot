@@ -1,10 +1,16 @@
-import { SlashCommandBuilder } from 'discord.js'
+import { ApplicationCommandType, CommandInteraction, Client } from 'discord.js'
 
-module.exports = {
-    data: new SlashCommandBuilder()
-                .setName('ping')
-                .setDescription('Pings all members in a channel.'),
-    async execute (interaction) {
-        await interaction.reply('@everyone')
-    },
+import { Command } from '../../interfaces'
+
+export const Ping:Command = {
+    name: 'ping',
+    description: 'Pings everyone in the channel',
+    type: ApplicationCommandType.ChatInput,
+    run: async(client: Client, interaction: CommandInteraction) => {
+        const content = '@everyone'
+        await interaction.followUp({
+            ephemeral: true,
+            content,
+        })
+    }
 }

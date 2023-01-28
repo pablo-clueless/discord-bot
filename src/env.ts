@@ -2,7 +2,8 @@ const requiredServerEnvs = [
     'TOKEN',
     'OPEN_AI',
     'CLIENT_ID',
-    'INTRODUCTION_CHANNEL_ID',
+    'CHANNEL_ID',
+    'PORT',
 ] as const
 
 type RequiredServerEnvKeys = (typeof requiredServerEnvs)[number]

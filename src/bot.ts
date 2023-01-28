@@ -1,15 +1,15 @@
-import { REST, Client, Collection, Events, GatewayIntentBits, Partials, Routes } from 'discord.js'
+import { Client, Events, GatewayIntentBits, Partials } from 'discord.js'
 import dotenv from 'dotenv'
-import path from 'path'
-import fs from 'fs'
 
 import { ask } from './ai'
+import main from './modules/register'
 import { getCoursesByDay } from './commons/utils/timetable'
+import { channel } from 'diagnostics_channel'
 
 dotenv.config()
 
 const TOKEN = process.env.TOKEN as string
-const CLIENT_ID = process.env.CLIENT_ID as string
+const CHANNEL_ID = process.env.CHANNEL_ID as string
 
 const client = new Client({
     intents: [
@@ -26,11 +26,11 @@ client.once(Events.ClientReady, (client) => {
     console.log(`Bot is online! Logged in as ${client.user.username.toUpperCase()}`)
 })
 
-client.once(Events.ClientReady, async(client) => {
+client.on(Events.ClientReady, async(client) => {
     const hours = new Date().getHours()
     const timetable = getCoursesByDay()
     if(hours === 12) {
-        const channel = await client.channels.fetch('')
+        const channel = await client.channels.cache.find((channel) => channel.id === CHANNEL_ID)
     }
 })
 
@@ -51,4 +51,5 @@ client.on(Events.MessageCreate, async(message) => {
     }
 })
 
+// main()
 client.login(TOKEN)
