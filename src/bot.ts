@@ -1,7 +1,7 @@
-import './register'
-import 'node:events'
+import { REST, Client, Collection, Events, GatewayIntentBits, Partials, Routes } from 'discord.js'
 import dotenv from 'dotenv'
-import { Client, Collection, Events, GatewayIntentBits, Partials } from 'discord.js'
+import path from 'path'
+import fs from 'fs'
 
 import { ask } from './ai'
 import { getCoursesByDay } from './commons/utils/timetable'
@@ -9,6 +9,7 @@ import { getCoursesByDay } from './commons/utils/timetable'
 dotenv.config()
 
 const TOKEN = process.env.TOKEN as string
+const CLIENT_ID = process.env.CLIENT_ID as string
 
 const client = new Client({
     intents: [
@@ -21,10 +22,8 @@ const client = new Client({
     partials: [Partials.Channel]
 })
 
-// const offenders = new Collection()
-
-client.once(Events.ClientReady, () => {
-    console.log('Jarvis is online!')
+client.once(Events.ClientReady, (client) => {
+    console.log(`Bot is online! Logged in as ${client.user.username.toUpperCase()}`)
 })
 
 client.once(Events.ClientReady, async(client) => {
@@ -33,23 +32,6 @@ client.once(Events.ClientReady, async(client) => {
     if(hours === 12) {
         const channel = await client.channels.fetch('')
     }
-})
-
-client.on(Events.InteractionCreate, async(interaction) => {
-    if(!interaction.isChatInputCommand()) return
-    if(interaction.commandName === 'refresh') {
-        await interaction.reply('Refresh done!')
-    }
-})
-
-client.on(Events.GuildMemberAdd, async(member) => {
-    const channelId = process.env.INTRODUCTION_CHANNEL_ID as string
-    const username = member.id
-    const welcomeMessage = `Hey @${username}, welcome to the server. Please read the #rules before anything else`
-    const channel = await member.guild.channels.fetch(channelId)
-    .then((channel) => {
-        // !ADD WELCOME MESSAGE
-    })
 })
 
 client.on(Events.MessageCreate, async(message) => {
