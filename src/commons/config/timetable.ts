@@ -3,6 +3,7 @@ export const TIMETABLE = [
         id: 1,
         day: 'Monday',
         courses: [
+            { name: 'Free', time: '5:00pm - 7:00pm' },
             { name: 'Basic Computer Networking (COM 220)', time: '7:00pm - 9:00pm' },
         ]
     },
@@ -26,14 +27,16 @@ export const TIMETABLE = [
         id: 4,
         day: 'Thursday',
         courses: [
-            { name: 'Seminar on Computer & Society (COM 222)', time: '5:00pm - 9:00pm' },
+            { name: 'Seminar on Computer & Society (COM 222)', time: '5:00pm - 7:00pm' },
+            { name: 'Seminar on Computer & Society (COM 222)', time: '7:00pm - 9:00pm' },
         ]
     },
     {
         id: 5,
         day: 'Friday',
         courses: [
-            { name: `Yay! You're free today`, time: '5:00pm - 9:00pm' },
+            { name: `Yay! You're free today`, time: '5:00pm - 7:00pm' },
+            { name: `Yay! You're free today`, time: '7:00pm - 9:00pm' },
         ]
     },
 ]

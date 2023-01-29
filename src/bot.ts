@@ -1,5 +1,6 @@
 import { Client, Events, GatewayIntentBits, Partials, TextChannel } from 'discord.js'
 import express, { Express, Request, Response } from 'express'
+import WOKCommands from 'wokcommands'
 import dotenv from 'dotenv'
 import http from 'http'
 import cors from 'cors'
@@ -7,7 +8,6 @@ import cors from 'cors'
 import { ask } from './ai'
 import main from './modules/register'
 import { getCoursesByDay } from './commons/utils/timetable'
-import { channel } from 'diagnostics_channel'
 
 dotenv.config()
 
@@ -37,15 +37,17 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 client.once(Events.ClientReady, (client) => {
+    // new WOKCommands({client, commandsDir: 'commands', mongoUri: ''})
     console.log(`bot is online; logged in as ${client.user.username}`)
 })
 
 client.on(Events.ClientReady, async(client) => {
     const hours = new Date().getHours()
-    const timetable = getCoursesByDay()
-    if(hours === 12) {
-        const channel = await (client.channels.cache.get("") as TextChannel)
-        channel?.send(`${timetable}`)
+    const data = getCoursesByDay()
+    const timetable = JSON.stringify(getCoursesByDay(), null, 2)
+    if(hours === 12 || hours === 15) {
+        const channel = await (client.channels.cache.get(CHANNEL_ID) as TextChannel)
+        channel.send('```json'+'\n Timetable \n'+'\n'+timetable+'```')
     }
 })
 
