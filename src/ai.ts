@@ -11,15 +11,14 @@ const config = new Configuration({
 const openai = new OpenAIApi(config)
 
 export const ask = async(prompt: string) => {
-    const response = await openai.createCompletion({
-        model: 'text-davinci-002',
-        prompt,
-        temperature: 0.7,
-        max_tokens: 256,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-    })
-    const answer = response.data.choices[0].text
-    return answer
+    try {
+        const response = await openai.createCompletion({
+            model: 'text-davinci-003',
+            prompt,
+        })
+        const answer = response.data.choices[0].text
+        return answer
+    } catch (error) {
+        console.log(error)
+    }
 }
